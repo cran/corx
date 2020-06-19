@@ -3,7 +3,7 @@
 #' Creates an object of class 'corx'. This function calculates correlation matrices. It stores effect sizes, p-values, the number of pairwise observations, and a formatted correlation matrix in a list. The argument 'z' allows for control variables to be assigned. If z does not equal NULL, partial correlations are performed. Methods are exported for the generic functions 'print', 'plot', 'summary', 'data.frame' and, 'coef'.
 #' @param data A data.frame or matrix
 #' @param x a vector of rownames. Defaults to all
-#' @param y a vector of colnames. Defaults to all
+#' @param y a vector of colnames. If not supplied, y is set to x.
 #' @param z a vector of colnames. Control variables to be used in partial correlations - defaults to NULL
 #' @param method a string. One of "pearson", "spearman", or "kendall"
 #' @param round a scalar. Number of digits in printing
@@ -14,7 +14,6 @@
 #' @param note table note
 #' @param describe a list of functions. If functions are supplied to describe, new columns will be bound to the 'APA matrix' for each function in the list. Describe also accepts a variety of shortcuts. If describe is set to TRUE, mean and standard deviation are returned for all row variables. Describe can accept a character vector to call the following descriptive functions: c('mean','sd','var','median','iqr','skewness','kurtosis'). These shortcuts are powered by 'tidyselect'. Skewness and kurtosis are calculated using the 'moments' package. All functions retrieved with shortcuts remove missing values.
 #' @param grey_nonsig a logical. Should non-significant values be grey in output? This argument does nothing if describe is not set to FALSE
-#' @param ... additional arguments
 #' @details 'corx' constructs intercorrelation matrices using 'psych::corr.test'. P-values attained are not adjusted for multiple comparisons. The argument z can be used to specify control variables. If control variables are specified, partial correlations are calculated using 'ppcor::ppcor.test'. Asymmetrical correlation matrices can be constructed using the arguments 'x' and 'y'. The arguments 'x', 'y', and 'z' are powered by 'tidyselect::vars_select'.
 #' @examples
 #' cor_mat <- corx(mtcars, x = c(mpg,cyl,disp), y = c(wt,drat,disp,qsec),
@@ -53,8 +52,8 @@ corx <-
            caption = NULL,
            note = NULL,
            describe = FALSE,
-           grey_nonsig = TRUE,
-           ...) {
+           grey_nonsig = TRUE) {
+
 
     call = match.call()
     env = environment()
@@ -96,7 +95,6 @@ corx <-
     if(length(x) > 0) x <- names(x)
     if(length(y) > 0) y <- names(y)
     if(length(z) > 0) z <- names(z)
-
     # --
 
     check_for_vec = function(names, sym, env){
@@ -152,7 +150,7 @@ corx <-
     }
 
     if(length(y) == 0){
-      y = names(data)
+      y = x
     }
 
     if(length(z) == 0){
@@ -328,16 +326,7 @@ apa_matrix = function(r_matrix,
     }
   }
 
-  get_stars = function(p, stars) {
-    if(is.na(p)) p <- 1
-    n_stars = sum(p < stars)
-    paste(rep("*", n_stars), collapse = "")
-  }
-
-  s_matrix = p_matrix
-  s_matrix[] =  sapply(p_matrix, function(p)
-    get_stars(p, stars))
-
+  s_matrix = star_matrix(p_matrix, stars = stars)
   s_matrix[row_names == col_names] = ""
 
   f_matrix[] = paste0(f_matrix, s_matrix)
@@ -443,9 +432,10 @@ plot.corx = function(x, ...){
   if(is.null(caption)) caption = ""
   if(!is.null(call$title)) caption = call$title
 
-  elip[['title']] = caption
-  elip[['type']] = tri
-  elip[['corr']] = x$r
+  elip[['title']] = caption # elip is designed
+  elip[['type']] = tri      # To be a call
+  elip[['corr']] = x$r      # I'm setting arguments which will be used in do.call
+  elip[['p.mat']] = x$p     # We include the p.matrix for signifance rules in ggcorrplot
 
   do.call(ggcorrplot::ggcorrplot, elip)
 }
@@ -506,8 +496,9 @@ as.data.frame.corx = function(x,...){
 #' @param data the data object
 #' @param ok_classes a vector of allowed classes
 #' @param stop_message a character string provided to users if error triggers.
+#' @param stop should the variable stop, or create a warning?
 
-check_classes = function(data, ok_classes, stop_message) {
+check_classes = function(data, ok_classes, stop_message, stop = TRUE) {
   classes = lapply(data, class)
   class_ok = classes %in% ok_classes
   bad_cols = names(data)[!class_ok]
@@ -516,10 +507,33 @@ check_classes = function(data, ok_classes, stop_message) {
   script = paste(glue::glue("[{bad_index}] '{bad_cols}' <{bad_classes}>"), collapse = ", ")
 
   if (!all(class_ok)) {
+    if(stop){
     stop(stop_message," ", script, ".", call. = F)
+    }else{
+      warning(stop_message," ", script, ".", call. = F)
+    }
   }
 }
 
+#' star_matrix
+#'
+#' Replaces p-values with stars
+#' @param m matrix of p-values
+#' @param stars a vector of p-value thresholds to replace with stars
+
+star_matrix = function(m, stars) {
+  get_stars = function(p, stars) {
+    if (is.na(p))
+      p <- 1
+    n_stars = sum(p < stars)
+    paste(rep("*", n_stars), collapse = "")
+  }
+
+  s_matrix = m
+  s_matrix[] =  sapply(m, function(p)
+    get_stars(p, stars = stars))
+  return(s_matrix)
+}
 
 
 

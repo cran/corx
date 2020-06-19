@@ -71,7 +71,7 @@ test_that("partial cor OK?", {
 
   # What about asym?
 
-  ob = corx(iris[-5], Sepal.Width, z = "Petal.Width")
+  ob = corx(iris[-5], Sepal.Width, tidyselect::everything(), z = "Petal.Width")
   pob = ppcor::pcor.test(iris$Sepal.Length, iris$Sepal.Width, iris$Petal.Width)
 
   expect_equal(ob$r[1,1], pob$estimate)
@@ -334,4 +334,58 @@ test_that("describe working on iris",{
  y = digits(unlist(lapply(names(iris)[-5], function(x) stats::median(iris[,x], na.rm =T)),2))
  testthat::expect_equal(unname(cr$apa[,"test"]), y)
 })
+
+
+test_that("triangle lower works",{
+
+  cr = corx(mtcars,  grey_nonsig = F, describe = c(test = median),
+            triangle = "lower", round = 8, remove_lead = F, stars = 0,
+            method = "kendall")$apa[10,6]
+
+  y = suppressWarnings(unname(digits(cor.test(mtcars$gear, mtcars$wt, method = "kendall")$estimate, 8)))
+  testthat::expect_equal(cr, y)
+})
+
+test_that("triangle upper works",{
+
+  cr = corx(mtcars,  grey_nonsig = F, describe = c(test = median),
+            triangle = "upper", round = 8, remove_lead = F, stars = 0,
+            method = "spearman")$apa[3,7]
+
+  y = suppressWarnings(unname(digits(cor.test(mtcars$disp, mtcars$qsec, method = "spearman")$estimate, 8)))
+  testthat::expect_equal(cr, y)
+})
+
+test_that("star_matrix works",{
+
+  m = matrix(c(0.01,0.05,0.49,0.001, 0.0009, 0.5), ncol = 2)
+  s = corx:::star_matrix(m, stars = c(0.05,0.01,0.001))
+  s2 = corx:::star_matrix(m, stars = c(0.001))
+
+  m = matrix(c("*","","","**","***",""), ncol =2)
+  m2 = matrix(c("","","","","*",""), ncol =2)
+
+  testthat::expect_equal(s, m)
+  testthat::expect_equal(s2, m2)
+
+})
+
+test_that("plot_mds can deal with no groups",{
+  out <- plot_mds(corx(mtcars))
+  testthat::expect_true("ggplot" %in% class(out))
+})
+
+test_that("k cannot be larger than number of variables",{
+  testthat::expect_error(plot_mds(corx(mtcars),100))
+})
+
+test_that(' k = "auto" works',{
+  out <- plot_mds(corx(mtcars), k = "auto")
+  testthat::expect_true("ggplot" %in% class(out))
+})
+
+test_that(' assymetry not allowed in plot_mds',{
+  testthat::expect_error(plot_mds(corx(mtcars, c(mpg), c(cyl,disp)), k = "auto"))
+})
+
 
