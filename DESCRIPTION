@@ -1,8 +1,8 @@
 Package: corx
 Type: Package
 Title: Create and Format Correlation Matrices
-Version: 1.0.6
-Date: 2020-06-19
+Version: 1.0.6.1
+Date: 2020-06-30
 Authors@R: 
     person(given = "James",
            family = "Conigrave",
@@ -13,14 +13,14 @@ Description: Create correlation (or partial correlation) matrices. Correlation m
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/JConigrave/corx
+URL: https://github.com/conig/corx
 Imports: ppcor, crayon, ggcorrplot, glue, psych, clipr, tidyselect,
         moments, ggpubr, ggplot2, magrittr, stats
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: testthat
 NeedsCompilation: no
-Packaged: 2020-06-19 00:49:35 UTC; james
+Packaged: 2020-06-30 09:04:55 UTC; james
 Author: James Conigrave [aut, cre] (<https://orcid.org/0000-0002-8816-6229>)
 Maintainer: James Conigrave <james.conigrave@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-06-19 04:30:03 UTC
+Date/Publication: 2020-06-30 09:20:17 UTC
