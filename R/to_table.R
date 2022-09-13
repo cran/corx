@@ -23,7 +23,8 @@ to_table <- function(corx, include_p = FALSE){
   }
 
   p_values <- corx$p
-  p_values[] <- round_p(p_values, leading.zero = FALSE)
+  p_values[] <- round_p(p_values, leading.zero = FALSE,
+                        simplify = 1, simple_digits = 0)
 
   if(!is.null(corx$call$triangle)){
     if(corx$call$triangle == "lower"){
@@ -61,7 +62,8 @@ to_table <- function(corx, include_p = FALSE){
   out
 }
 
-round_p <- function(p, n = 3, stars = c(), leading.zero = T, apa_threshold = 0.001, simplify = .1){
+round_p <- function(p, n = 3, stars = c(), leading.zero = FALSE, apa_threshold = 0.001, simplify = .1,
+                    simple_digits = 2){
   rounded = digits(p,n)
   out <- lapply(seq_along(rounded), function(x){
 
@@ -93,11 +95,6 @@ round_p <- function(p, n = 3, stars = c(), leading.zero = T, apa_threshold = 0.0
 
     }
 
-    if(!leading.zero){
-      r = sub("^(-)?0[.]",
-              "\\1.", r)
-    }
-
     if(r_original < as.numeric(r)){
       r = paste0("< ",r)
     }
@@ -107,10 +104,11 @@ round_p <- function(p, n = 3, stars = c(), leading.zero = T, apa_threshold = 0.0
     }
 
     if(original >= simplify){
-      r = digits(original, 2)
+      r = digits(original, n = simple_digits)
     }
 
-    r = paste0(r,stars_to_add)
+    r <- paste0(r,stars_to_add)
+    if(!leading.zero) r <- gsub("0\\.", ".", r)
 
     return(r)
 

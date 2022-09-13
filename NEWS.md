@@ -1,3 +1,9 @@
+# corx 1.0.7.1
+
+* Fixed issue where misspelling columns did not result in error
+* Removed leading zeros for p-values in to_table
+* P-values are now rounded consistently to three decimal places
+
 # corx 1.0.7.0
 
 * Removed magrittr pipe operator

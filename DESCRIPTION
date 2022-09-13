@@ -1,8 +1,8 @@
 Package: corx
 Type: Package
 Title: Create and Format Correlation Matrices
-Version: 1.0.7.0
-Date: 2022-08-24
+Version: 1.0.7.1
+Date: 2022-09-14
 Authors@R: 
     person(given = "James",
            family = "Conigrave",
@@ -17,10 +17,10 @@ Depends: R (>= 3.6)
 Imports: crayon, ggcorrplot, glue, clipr, tidyselect, moments, ggpubr,
         ggplot2, stats, methods, ppcor
 RoxygenNote: 7.2.1
-Suggests: papaja, psych, testthat
+Suggests: covr, papaja, psych, testthat
 NeedsCompilation: no
-Packaged: 2022-08-24 10:21:41 UTC; james
+Packaged: 2022-09-13 23:36:21 UTC; james
 Author: James Conigrave [aut, cre] (<https://orcid.org/0000-0002-8816-6229>)
 Maintainer: James Conigrave <james.conigrave@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-08-25 23:42:34 UTC
+Date/Publication: 2022-09-14 00:10:02 UTC
