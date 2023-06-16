@@ -1,12 +1,12 @@
-56d9e8691a0ec81480d148e45aaf9f26 *DESCRIPTION
+858b8cf77bd38bc6daf2f66c5885ee25 *DESCRIPTION
 62fe7908b809717d14640d8f046a65fa *LICENSE
-d96ba0e2816491ca46382062b2f1595a *NAMESPACE
+0d8cf5d3b146b28cdaa75f6bb70c78d8 *NAMESPACE
 8e1e72346afe561e6a95d0ba1c1e866c *NEWS.md
 bb4268b1c183575e187412a693f93f04 *R/adjust_p.R
 b062f809351b40ae893cd6ca9c5af54e *R/cormat_list.R
-95210453c848d797fd0342f2d6f57e39 *R/corx.R
-7517bcd2294a2dbdd81b0ad636a5a1fb *R/methods.R
-a3030cc4460c282041771a28dfb40524 *R/plot_mds.R
+b87f8e0319247b4a9f27e4fcfd8a8b6b *R/corx.R
+df320610f694e090e8c6bdcbb2064ac0 *R/methods.R
+f95b5a9c67b080406c837b1978133795 *R/plot_mds.R
 1a695b626f9d93543523a6158d24a5f7 *R/to_clipboard.r
 67b8f25f7cf371969432a0ec1c3b8dae *R/to_table.R
 3ec6a40d184d1c7b2e8ead741645a3d1 *README.md
@@ -15,7 +15,7 @@ ccd1aec70122d7699caf8f7a1c74ddb1 *man/adjust_pmat.Rd
 2efa27707fe6d2334f4b829afccddb54 *man/apa_table.corx.Rd
 798241ce5e473dd8973d04f0e25930e7 *man/check_classes.Rd
 a59cf27db6bd615fec08bb91d954fc7e *man/cormat_list.Rd
-831de730bcf410b3991d9e92fc859b87 *man/corx.Rd
+870d4498df27b53e722c584dc924126a *man/corx.Rd
 7f6deb6e0baf22336e7c47523196a46f *man/digits.Rd
 7156e798e6d338e7394eeab63a3fae75 *man/figures/README-unnamed-chunk-10-1.png
 3025d84da8f017c1c7d3db94e58f87cd *man/figures/README-unnamed-chunk-11-1.png
@@ -25,8 +25,8 @@ e83a02e205e26ef53d198baf522b65e4 *man/figures/README-unnamed-chunk-13-1.png
 5391f052e9fc19619571f7cb96936de3 *man/figures/README-unnamed-chunk-9-1.png
 c2628af3d4b8b03d4f4e6da82b511f8a *man/figures/logo.png
 ef9860f5d77f49e84b5fafd93f9437eb *man/partial_n_matrix.Rd
-d2009b69ed20915c2fc9b1d6a982ebfb *man/plot.corx.Rd
-6bfa8f3ee4abafe228e6ef18f751fdb3 *man/plot_mds.Rd
+cb02ce1f12b69c7fa18871d56b3eaddc *man/plot.corx.Rd
+e7a2071f8f22d1081dede2f9a5905365 *man/plot_mds.Rd
 4f53a942c38c696afbd38505c987d55a *man/print.corx.Rd
 c4296f61e7c1bfc1fa7643565b62b872 *man/rename_if_needed.Rd
 76e61bb2afd780f9cf46d707648ffcdc *man/star_matrix.Rd
